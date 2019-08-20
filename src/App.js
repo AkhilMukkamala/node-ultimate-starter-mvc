@@ -40,14 +40,10 @@ let streams = require('./services/logger.service').logger;
  * DB Config and Connection
  */
 
-let mongoConnectionString;
-
-process.env.NODE_ENV == 'development' ? mongoConnectionString = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}` : mongoConnectionString = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
-
 // mongoose.Promise = global.Promise;
 
 mongoose.connect(
-    mongoConnectionString, {
+    process.env.MONGO_URI, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useFindAndModify: false,
