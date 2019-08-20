@@ -1,0 +1,9 @@
+    // "debug": "pm2 start './src/App.js' --node-args='--inspect-brk' --watch",
+
+
+roles - think through
+
+    superadmin
+    admin
+    member - special user
+    user
