@@ -56,8 +56,7 @@ mongoose.connect(
             // log.error(err);
             log('error', err);
         } else {
-            log('info', `Connection to Database: ${process.env.MONGO_DB} Successfull`);
-            // log.info(`Connection to Database: ${process.env.MONGO_DB} Successfull`)
+            log('info', `Connection to Database Successfull`);
         }
     }
 );
