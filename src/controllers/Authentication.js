@@ -56,7 +56,7 @@ router.get('/email-verification/:token', async (req, res) => {
     let result = await AuthService.checkEmailVerificationStatus(token);
     if (result.success && result.message === 'REDIRECT-TRUE') {
         // TODO - Change the redirect URL.
-        return res.redirect('https://google.com');
+        return res.redirect(process.env.REDIRECT_URL);
     } else {
         return res.json(result);
     }
@@ -85,7 +85,7 @@ router.get('/reset-password/:token', async (req, res) => {
     let result = await AuthService.checkPasswordResetStatus(token);
     if (result.success && result.message === 'REDIRECT-TRUE') {
         // TODO - Change the redirect URL.
-        return res.redirect('https://google.com');
+        return res.redirect(process.env.REDIRECT_URL);
     } else {
         return res.json(result);
     }
