@@ -15,13 +15,13 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
     let { email, password } = req.body;
-    let result = await AuthService.signIn(email, password);
+    let result = await AuthService.signIn(email, password, req.clientIp, req.clientAddress, req.useragent);
     return res.json(result);
 });
 
 router.get('/verify-gauth', async (req, res) => {
     let { _id, token } = req.query;
-    let result = await AuthService.verifyGAuth(_id, token);
+    let result = await AuthService.verifyGAuth(_id, token, req.clientIp, req.clientAddress, req.useragent);
     return res.json(result);
 });
 

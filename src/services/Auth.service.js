@@ -22,6 +22,7 @@ const customMail = require("./Mailer.service").customMail;
 const Users = require("../models/Users.model");
 const UsersMeta = require("./../models/UsersMeta.model");
 const UsersReferral = require("./../models/UsersReferral.model");
+const UsersSessions = require('./../models/UsersSession.model');
 
 // Email Templates
 const emailTemplates = require('../emails/templates');
@@ -87,7 +88,7 @@ let signUp = async (name, email, password) => {
     }
 };
 
-let signIn = async (email, password) => {
+let signIn = async (email, password, ip, address, useragent) => {
     try {
         // Schema Validation
         const valid = ajv.validate(signInSchema, {
@@ -143,6 +144,7 @@ let signIn = async (email, password) => {
                         const token = generateJWT({
                             user: userId
                         });
+                        await saveUserSession(userId, ip, address, useragent);
                         return CommonService.formatResponse(true, {
                             message: msg["twofactor-disabled"],
                             data: {
@@ -161,6 +163,19 @@ let signIn = async (email, password) => {
         });
     }
 };
+
+let saveUserSession = async (userId, ip, address, useragent) => {
+
+        let userSession = {
+            userId: userId,
+            ip: ip,
+            useragent: useragent,
+            address: address
+        }
+        let savedSession = await UsersSessions.create(userSession);
+        return true;
+};
+
 
 let generateJWT = user => {
     return jwt.sign(user, process.env.JWT_SECRET, {
@@ -256,7 +271,7 @@ let setupGAuth = async userId => {
     }
 };
 
-let verifyGAuth = async (userId, token) => {
+let verifyGAuth = async (userId, token, ip, address, useragent) => {
     try {
         const gAuthData = await UsersMeta.findOne({
             userId
@@ -276,6 +291,7 @@ let verifyGAuth = async (userId, token) => {
                 const token = generateJWT({
                     user: userId
                 });
+                await saveUserSession(userId, ip, address, useragent);
                 return CommonService.formatResponse(true, {
                     message: msg["twofactor-success"],
                     data: {
@@ -614,6 +630,7 @@ module.exports.checkEmailVerificationStatus = checkEmailVerificationStatus;
 module.exports.sendPasswordResetEmail = sendPasswordResetEmail;
 module.exports.checkPasswordResetStatus = checkPasswordResetStatus;
 module.exports.resetPassword = resetPassword;
+module.exports.saveUserSession = saveUserSession;
 
 // Validations
 

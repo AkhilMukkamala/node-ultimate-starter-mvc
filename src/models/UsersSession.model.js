@@ -6,6 +6,18 @@ let UserSessionSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        ip: String,
+        useragent: Object,
+        address: {
+            city: String,
+            region: String,
+            country: String,
+            timezone: String,
+            coordinates: {
+                lat: String,
+                long: String
+            }
+        }
     },
     {
         timestamps: true
@@ -21,3 +33,4 @@ let UserSessionSchema = new mongoose.Schema(
 
 let UserSession = mongoose.model('UserSession', UserSessionSchema, 'users.sessions');
 module.exports = UserSession;
+

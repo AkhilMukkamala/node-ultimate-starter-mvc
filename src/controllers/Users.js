@@ -1,23 +1,22 @@
 const router = require('express').Router();
-const uaParser = require('ua-parser-js');
-const useragent = require('useragent');
-const iplocation = require("iplocation").default;
-const requestIp = require('request-ip');
-
 const publicIp = require('public-ip');
+const geoip = require('geoip-lite');
+
 
 // Internal Files
 const log = require("./../services/Logger.service");
 const UsersService = require('./../services/Users.service');
 
 
+
+
 router.get('/parse', async (req, res) => {
-    // let ip = await iplocation('183.83.224.157', []);
-    const clientIp = requestIp.getClientIp(req);
-    let ip = await publicIp.v4()
-    return res.json(ip)
-    // var ua = uaParser(req.headers['user-agent']);
-    // return res.json(ua);
+    return res.status(200).json({
+        ip: req.clientIp,
+        clientAddress: req.clientAddress,
+        ua: req.useragent
+    })
+
 });
 
 router.get('/user', async (req, res) => {

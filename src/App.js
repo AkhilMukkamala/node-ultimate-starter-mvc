@@ -15,8 +15,11 @@ const cookieParser = require('cookie-parser');
 const lusca = require('lusca');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+const useragent = require('express-useragent');
 const fs = require('fs');
 const path = require('path');
+const publicIp = require('public-ip');
+const geoip = require('geoip-lite');
 
 // Socket
 let server = require('http').Server(app);
@@ -75,7 +78,7 @@ const users = require('./controllers/Users');
 
 // app.use(compression());
 // app.use(logger('combined', { stream: requestStream }));
-
+app.use(useragent.express());
 app.use(logger('combined', { stream: streams.stream }))
 app.use(bodyParser.json());
 app.use(
@@ -102,6 +105,46 @@ app.use(
     })
 );
 
+
+app.use(async (req, res, next) => {
+
+    //  useragent
+    let useragent = req.useragent;
+    let ua = {};
+    for (key in useragent) {
+        if (useragent[key]) {
+            ua[key] = useragent[key]
+        }
+    }
+    // Delete unneccessary keys from UA.
+    delete ua.geoIp
+
+    // Set UA.
+
+    req.useragent = ua;
+
+    let ip = await publicIp.v4();
+    let geo = geoip.lookup(ip);
+
+    // Delete Unnecessary keys in the Object.
+    delete geo.metro;
+    delete geo.area;
+    delete geo.eu;
+    delete geo.range;
+
+    let coordinates = {
+        lat: geo.ll[0],
+        long: geo.ll[1]
+    }
+    geo['coordinates'] = coordinates;
+    delete geo.ll
+
+    //  Set the ClientIP and ClientAddress in the request Object.
+    req.clientIp = ip;
+    req.clientAddress = geo;
+    console.log(req.clientAddress)
+    next();
+})
 
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
