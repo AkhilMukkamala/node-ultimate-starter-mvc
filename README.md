@@ -1,6 +1,6 @@
-# Welcome to node-ultimate-starter!
+# Welcome to node-ultimate-starter-mvc!
 
-**node-ultimate-starter** is the repo you should look into if you need one of those awesome boilerplates. Wondering what's so special about this ? Checkout out the [Features](#features) and other info below.
+**node-ultimate-starter-mvc** is the repo you should look into if you need one of those awesome boilerplates. Wondering what's so special about this ? Checkout out the [Features](#features) and other info below.
 
 ## Table of Contents
 
