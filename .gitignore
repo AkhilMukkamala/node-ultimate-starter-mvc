@@ -89,7 +89,7 @@ typings/
 
 
 #OTHER
-
+*_Store
 .DS_Store
 .comments
 .editorconfig
