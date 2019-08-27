@@ -44,13 +44,8 @@ let UserMetaSchema = new mongoose.Schema(
         }
     },
     {
-        timestamps: true
-    },
-    {
+        timestamps: true,
         strict: false,
-        collection: 'users.meta'
-    },
-    {
         versionKey: false
     }
 );

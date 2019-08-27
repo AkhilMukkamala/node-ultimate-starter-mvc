@@ -20,13 +20,8 @@ let UserReferralSchema = new mongoose.Schema(
         }]
     },
     {
-        timestamps: true
-    },
-    {
+        timestamps: true,
         strict: false,
-        collection: 'users.referrals'
-    },
-    {
         versionKey: false
     }
 );

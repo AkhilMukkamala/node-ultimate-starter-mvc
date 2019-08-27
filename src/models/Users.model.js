@@ -32,13 +32,8 @@ let UserSchema = new mongoose.Schema(
         }
     },
     {
-        timestamps: true
-    },
-    {
+        timestamps: true,
         strict: false,
-        collection: 'users'
-    },
-    {
         versionKey: false
     }
 );

@@ -20,13 +20,8 @@ let UserSessionSchema = new mongoose.Schema(
         }
     },
     {
-        timestamps: true
-    },
-    {
+        timestamps: true,
         strict: false,
-        collection: 'users.sessions'
-    },
-    {
         versionKey: false
     }
 );
